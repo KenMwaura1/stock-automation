@@ -31,9 +31,22 @@ def getdata(stock):
     #CEO
     ceo = company_info['profile']['ceo']
 
-    print(share_price, cash, debt, qRev, ceo)
+    #print(share_price, cash, debt, qRev, ceo)
     return (share_price, cash, debt, qRev, ceo)
    
 
-getdata('MSFT')
+tickers = ('AAPL', 'MSFT', 'GOOG', 'T', 'CSCO', 'INTC', 'ORCL', 'AMZN', 'FB', 'TSLA', 'NVDA')
+    
+data = map(getdata, tickers)
+
+df = pd.DataFrame(data,
+     columns=['Share Price','Total Cash', 'Total Debt', 'Q3 2019 Revenue', 'CEO'],
+     index=tickers)
+print(df)
+
+# Writing to Excel 
+writer = pd.ExcelWriter('test.xlsx')
+df.to_excel(writer,'Stats')
+writer.save()
+
 
